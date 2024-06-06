@@ -1,0 +1,35 @@
+name: Checkout Code
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  push:
+    branches: [ "main" ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@master
+    - name: Update diagram
+      uses: githubocto/repo-visualizer@0.7.1
+      with:
+        output_file: "images/diagram.svg"
+        excluded_paths: "dist,node_modules"
+     
